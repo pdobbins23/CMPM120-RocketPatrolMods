@@ -75,7 +75,7 @@ class Play extends Phaser.Scene {
 				"microship",
 				0,
 				50,
-				game.settings.spaceshipSpeed * 2,
+				game.settings.spaceshipSpeed * 1.5,
 			).setOrigin(0, 0),
 		);
 
