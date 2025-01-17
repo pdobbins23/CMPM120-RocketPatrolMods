@@ -17,30 +17,6 @@ class Play extends Phaser.Scene {
 				0x00ff00,
 			)
 			.setOrigin(0, 0);
-		this.add
-			.rectangle(0, 0, game.config.width, borderUISize, 0xffffff)
-			.setOrigin(0, 0);
-		this.add
-			.rectangle(
-				0,
-				game.config.height - borderUISize,
-				game.config.width,
-				borderUISize,
-				0xffffff,
-			)
-			.setOrigin(0, 0);
-		this.add
-			.rectangle(0, 0, borderUISize, game.config.height, 0xffffff)
-			.setOrigin(0, 0);
-		this.add
-			.rectangle(
-				game.config.width - borderUISize,
-				0,
-				borderUISize,
-				game.config.height,
-				0xffffff,
-			)
-			.setOrigin(0, 0);
 
 		this.p1Rocket = new Rocket(
 			this,
@@ -132,6 +108,31 @@ class Play extends Phaser.Scene {
 
 		this.scoreConfig.fixedWidth = 0;
 
+		this.add
+			.rectangle(0, 0, game.config.width, borderUISize, 0xffffff)
+			.setOrigin(0, 0);
+		this.add
+			.rectangle(
+				0,
+				game.config.height - borderUISize,
+				game.config.width,
+				borderUISize,
+				0xffffff,
+			)
+			.setOrigin(0, 0);
+		this.add
+			.rectangle(0, 0, borderUISize, game.config.height, 0xffffff)
+			.setOrigin(0, 0);
+		this.add
+			.rectangle(
+				game.config.width - borderUISize,
+				0,
+				borderUISize,
+				game.config.height,
+				0xffffff,
+			)
+			.setOrigin(0, 0);
+
 		this.gameOver = false;
 
 		// pointer
@@ -140,6 +141,17 @@ class Play extends Phaser.Scene {
 		// time tracking
 		this.timeRemaining = game.settings.gameTimer;
 		this.lastFrameTime = this.time.now;
+
+		// particles
+		this.emitter = this.add.particles(0, 0, "particle", {
+			frame: [],
+			lifespan: 3000,
+			speed: { min: 200, max: 250 },
+			scale: { start: 0.6, end: 0 },
+			gravityY: 0,
+			blendMode: "ADD",
+			emitting: false,
+		});
 	}
 
 	update() {
@@ -190,7 +202,6 @@ class Play extends Phaser.Scene {
 				this.p1Rocket.reset();
 				this.shipExplode(ship);
 
-				// TODO: add time to clock
 				this.timeRemaining += hitReward;
 			}
 		}
@@ -221,5 +232,10 @@ class Play extends Phaser.Scene {
 		this.scoreLeft.text = this.p1Score;
 
 		this.sound.play("sfx-explosion");
+
+		this.emitter.x = ship.x;
+		this.emitter.y = ship.y;
+		
+		this.emitter.explode(16);
 	}
 }

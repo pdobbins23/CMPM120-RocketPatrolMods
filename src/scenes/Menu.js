@@ -11,6 +11,7 @@ class Menu extends Phaser.Scene {
 			{ key: "rocket" },
 			{ key: "spaceship" },
 			{ key: "microship" },
+			{ key: "particle" },
 			{ key: "starfield" },
 		]);
 
