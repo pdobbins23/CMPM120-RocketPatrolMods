@@ -7,6 +7,10 @@
 //  - New timing/scoring mechanism that adds time to the clock for successful hits and subtracts time for misses
 //  - Mouse input
 //  - Phaser particle emitter for ship explosions
+// Other Changes:
+//  - Use deltaTime for movement calculations (fixes some issues with varying/high FPS)
+//  - Store ships in an array and iterate for updates and collision checks (rather than hard-coding)
+//  - Switch from Clock delayedCall to my own time tracking thats simpler and can easily be shortened/extended dynamically
 
 "use strict";
 
