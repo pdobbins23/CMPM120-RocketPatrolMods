@@ -162,7 +162,7 @@ class Play extends Phaser.Scene {
 
 		// console.log(this.timeRemaining);
 
-		const scaledDeltaTime = deltaTime / 1000;
+		const scaledDeltaTime = Math.min(deltaTime / 1000, 0.25);
 
 		if (!this.gameOver && this.timeRemaining <= 0) {
 			this.gameOver = true;
