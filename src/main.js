@@ -1,7 +1,7 @@
 // Name: Peter Dobbins
 // Title: Rocket Patrol 2: Electric Boogaloo
 // Date: 16/1/25
-// Time Spent: 45 minutes
+// Time Spent: 1 hour
 // Mods:
 //  - New enemy spaceship type
 //  - New timing/scoring mechanism that adds time to the clock for successful hits and subtracts time for misses

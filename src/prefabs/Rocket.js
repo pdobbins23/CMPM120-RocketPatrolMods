@@ -42,6 +42,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
 
 			this.x += movX;
 
+			// lock player in bounds
 			if (this.x > game.config.width - borderUISize - this.width / 2) {
 				this.x = game.config.width - borderUISize - this.width / 2;
 			} else if (this.x < borderUISize + this.width / 2) {
