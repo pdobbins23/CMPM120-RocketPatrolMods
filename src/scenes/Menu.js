@@ -10,6 +10,7 @@ class Menu extends Phaser.Scene {
 		this.load.image([
 			{ key: "rocket" },
 			{ key: "spaceship" },
+			{ key: "microship" },
 			{ key: "starfield" },
 		]);
 

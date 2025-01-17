@@ -2,7 +2,11 @@
 // Title: ???
 // Date: 15/1/25
 // Time Spent: 0 hours
-// Mods: ???
+// Mods:
+//  - New enemy spaceship type
+//  - New timing/scoring mechanism that adds time to the clock for successful hits and subtracts time for misses
+//  - Mouse input
+//  - Phaser particle emitter for ship explosions
 
 "use strict";
 

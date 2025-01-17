@@ -49,30 +49,59 @@ class Play extends Phaser.Scene {
 			"rocket",
 		).setOrigin(0.5, 0);
 
-		this.ship01 = new Spaceship(
-			this,
-			game.config.width + borderUISize * 6,
-			borderUISize * 4,
-			"spaceship",
-			0,
-			30,
-		).setOrigin(0, 0);
-		this.ship02 = new Spaceship(
-			this,
-			game.config.width + borderUISize * 3,
-			borderUISize * 5 + borderPadding * 2,
-			"spaceship",
-			0,
-			20,
-		).setOrigin(0, 0);
-		this.ship03 = new Spaceship(
-			this,
-			game.config.width,
-			borderUISize * 6 + borderPadding * 4,
-			"spaceship",
-			0,
-			10,
-		).setOrigin(0, 0);
+		this.ships = [];
+
+		// ship01
+		this.ships.push(
+			new Spaceship(
+				this,
+				game.config.width + borderUISize * 6,
+				borderUISize * 4,
+				"spaceship",
+				0,
+				30,
+				game.settings.spaceshipSpeed,
+			).setOrigin(0, 0),
+		);
+
+		// ship02
+		this.ships.push(
+			new Spaceship(
+				this,
+				game.config.width + borderUISize * 3,
+				borderUISize * 5 + borderPadding * 2,
+				"spaceship",
+				0,
+				20,
+				game.settings.spaceshipSpeed,
+			).setOrigin(0, 0),
+		);
+
+		// ship03
+		this.ships.push(
+			new Spaceship(
+				this,
+				game.config.width,
+				borderUISize * 6 + borderPadding * 4,
+				"spaceship",
+				0,
+				10,
+				game.settings.spaceshipSpeed,
+			).setOrigin(0, 0),
+		);
+
+		// ship04
+		this.ships.push(
+			new Spaceship(
+				this,
+				game.config.width,
+				borderUISize * 7 + borderPadding * 6,
+				"microship",
+				0,
+				50,
+				game.settings.spaceshipSpeed * 2,
+			).setOrigin(0, 0),
+		);
 
 		keyFIRE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 		keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -104,6 +133,9 @@ class Play extends Phaser.Scene {
 		scoreConfig.fixedWidth = 0;
 
 		this.gameOver = false;
+
+		// pointer
+		this.pointer = this.input.activePointer;
 
 		this.clock = this.time.delayedCall(
 			game.settings.gameTimer,
@@ -138,26 +170,22 @@ class Play extends Phaser.Scene {
 		if (!this.gameOver) {
 			this.p1Rocket.update();
 
-			this.ship01.update();
-			this.ship02.update();
-			this.ship03.update();
+			for (let ship of this.ships) {
+				ship.update();
+			}
 		} else if (Phaser.Input.Keyboard.JustDown(keyRESET)) {
 			this.scene.restart();
 		} else if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
 			this.scene.start("menuScene");
 		}
 
-		if (this.checkCollision(this.p1Rocket, this.ship01)) {
-			this.p1Rocket.reset();
-			this.shipExplode(this.ship01);
-		}
-		if (this.checkCollision(this.p1Rocket, this.ship02)) {
-			this.p1Rocket.reset();
-			this.shipExplode(this.ship02);
-		}
-		if (this.checkCollision(this.p1Rocket, this.ship03)) {
-			this.p1Rocket.reset();
-			this.shipExplode(this.ship03);
+		for (let ship of this.ships) {
+			if (this.checkCollision(this.p1Rocket, ship)) {
+				this.p1Rocket.reset();
+				this.shipExplode(ship);
+
+				// TODO: add time to clock
+			}
 		}
 	}
 
