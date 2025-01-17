@@ -14,6 +14,9 @@ let config = {
 	type: Phaser.AUTO,
 	width: 640,
 	height: 480,
+	fps: {
+		limit: 60,
+	},
 	scene: [Menu, Play],
 };
 
@@ -23,3 +26,6 @@ let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
 
 let keyFIRE, keyRESET, keyLEFT, keyRIGHT;
+
+let hitReward = 3000;
+let missPunishment = 5000;

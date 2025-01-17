@@ -110,7 +110,7 @@ class Play extends Phaser.Scene {
 
 		this.p1Score = 0;
 
-		let scoreConfig = {
+		this.scoreConfig = {
 			fontFamily: "Courier",
 			fontSize: "28px",
 			backgroundColor: "#F3B141",
@@ -127,19 +127,30 @@ class Play extends Phaser.Scene {
 			borderUISize + borderPadding,
 			borderUISize + borderPadding * 2,
 			this.p1Score,
-			scoreConfig,
+			this.scoreConfig,
 		);
 
-		scoreConfig.fixedWidth = 0;
+		this.scoreConfig.fixedWidth = 0;
 
 		this.gameOver = false;
 
 		// pointer
 		this.pointer = this.input.activePointer;
 
-		this.clock = this.time.delayedCall(
-			game.settings.gameTimer,
-			() => {
+		// time tracking
+		this.timeRemaining = game.settings.gameTimer;
+		this.lastFrameTime = this.time.now;
+	}
+
+	update() {
+		const deltaTime = this.time.now - this.lastFrameTime;
+		this.lastFrameTime = this.time.now;
+		
+		this.timeRemaining -= deltaTime;
+
+		// console.log(this.timeRemaining);
+
+		if (!this.gameOver && this.timeRemaining <= 0) {
 				this.gameOver = true;
 
 				this.add
@@ -147,7 +158,7 @@ class Play extends Phaser.Scene {
 						game.config.width / 2,
 						game.config.height / 2,
 						"GAME OVER",
-						scoreConfig,
+						this.scoreConfig,
 					)
 					.setOrigin(0.5);
 				this.add
@@ -155,16 +166,11 @@ class Play extends Phaser.Scene {
 						game.config.width / 2,
 						game.config.height / 2 + 64,
 						"Press (R) to Restart or <- for Menu",
-						scoreConfig,
+						this.scoreConfig,
 					)
 					.setOrigin(0.5);
-			},
-			null,
-			this,
-		);
-	}
-
-	update() {
+		}
+		
 		this.starfield.tilePositionX -= 4;
 
 		if (!this.gameOver) {
@@ -185,6 +191,7 @@ class Play extends Phaser.Scene {
 				this.shipExplode(ship);
 
 				// TODO: add time to clock
+				this.timeRemaining += hitReward;
 			}
 		}
 	}

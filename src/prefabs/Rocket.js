@@ -58,7 +58,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
 			this.isFiring = false;
 			this.y = game.config.height - borderUISize - borderPadding;
 
-			// TODO: Remove time from clock
+			this.scene.timeRemaining -= missPunishment;
 		}
 	}
 
