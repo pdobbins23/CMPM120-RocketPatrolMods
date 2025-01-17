@@ -95,7 +95,7 @@ class Menu extends Phaser.Scene {
 	update() {
 		if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
 			game.settings = {
-				spaceshipSpeed: 3,
+				spaceshipSpeed: 300,
 				gameTimer: 60000,
 			};
 
@@ -105,7 +105,7 @@ class Menu extends Phaser.Scene {
 		}
 		if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
 			game.settings = {
-				spaceshipSpeed: 4,
+				spaceshipSpeed: 400,
 				gameTimer: 45000,
 			};
 

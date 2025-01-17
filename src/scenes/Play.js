@@ -157,39 +157,41 @@ class Play extends Phaser.Scene {
 	update() {
 		const deltaTime = this.time.now - this.lastFrameTime;
 		this.lastFrameTime = this.time.now;
-		
+
 		this.timeRemaining -= deltaTime;
 
 		// console.log(this.timeRemaining);
 
-		if (!this.gameOver && this.timeRemaining <= 0) {
-				this.gameOver = true;
+		const scaledDeltaTime = deltaTime / 1000;
 
-				this.add
-					.text(
-						game.config.width / 2,
-						game.config.height / 2,
-						"GAME OVER",
-						this.scoreConfig,
-					)
-					.setOrigin(0.5);
-				this.add
-					.text(
-						game.config.width / 2,
-						game.config.height / 2 + 64,
-						"Press (R) to Restart or <- for Menu",
-						this.scoreConfig,
-					)
-					.setOrigin(0.5);
+		if (!this.gameOver && this.timeRemaining <= 0) {
+			this.gameOver = true;
+
+			this.add
+				.text(
+					game.config.width / 2,
+					game.config.height / 2,
+					"GAME OVER",
+					this.scoreConfig,
+				)
+				.setOrigin(0.5);
+			this.add
+				.text(
+					game.config.width / 2,
+					game.config.height / 2 + 64,
+					"Press (R) to Restart or <- for Menu",
+					this.scoreConfig,
+				)
+				.setOrigin(0.5);
 		}
-		
-		this.starfield.tilePositionX -= 4;
+
+		this.starfield.tilePositionX -= 200 * scaledDeltaTime;
 
 		if (!this.gameOver) {
-			this.p1Rocket.update();
+			this.p1Rocket.update(scaledDeltaTime);
 
 			for (let ship of this.ships) {
-				ship.update();
+				ship.update(scaledDeltaTime);
 			}
 		} else if (Phaser.Input.Keyboard.JustDown(keyRESET)) {
 			this.scene.restart();
@@ -235,7 +237,7 @@ class Play extends Phaser.Scene {
 
 		this.emitter.x = ship.x;
 		this.emitter.y = ship.y;
-		
+
 		this.emitter.explode(16);
 	}
 }

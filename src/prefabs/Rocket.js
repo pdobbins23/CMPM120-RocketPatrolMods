@@ -5,14 +5,16 @@ class Rocket extends Phaser.GameObjects.Sprite {
 		scene.add.existing(this);
 
 		this.isFiring = false;
-		this.moveSpeed = 2;
+		this.moveSpeed = 100;
+
+		// for tracking mouse movement
 		this.lastMoveWasMouse = false;
 		this.lastMouseX = 0;
 
 		this.sfxShot = scene.sound.add("sfx-shot");
 	}
 
-	update() {
+	update(deltaTime) {
 		if (!this.isFiring) {
 			let movX = 0;
 
@@ -30,7 +32,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
 
 				if (
 					this.lastMoveWasMouse &&
-					Math.abs(this.x - this.scene.pointer.worldX) > this.moveSpeed
+					Math.abs(this.x - this.scene.pointer.worldX) > 5
 				) {
 					if (this.x < this.scene.pointer.worldX) {
 						movX = this.moveSpeed;
@@ -40,7 +42,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
 				}
 			}
 
-			this.x += movX;
+			this.x += movX * deltaTime;
 
 			// lock player in bounds
 			if (this.x > game.config.width - borderUISize - this.width / 2) {
@@ -59,7 +61,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
 		}
 
 		if (this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
-			this.y -= this.moveSpeed;
+			this.y -= this.moveSpeed * deltaTime;
 		}
 
 		if (this.y <= borderUISize * 3 + borderPadding) {
